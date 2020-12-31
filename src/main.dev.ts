@@ -142,6 +142,7 @@ app.on('activate', () => {
   if (mainWindow === null) createWindow();
 });
 
+// Everything below here needs definitely a refactor :)
 const finishedPaths: string[] = [];
 const finishedInfos: Record<string, any> = {};
 
@@ -170,22 +171,11 @@ ipcMain.on('handle-new-file', async (event: any, args: any) => {
   try {
     unlinkSync(output);
   } catch (e) {
-    console.log('dont care');
+    // if its not there we can just ignore it.
   }
   await limitVideoAudio(arg, output, stats);
   const newStats = await getStats(output);
-  console.log({
-    liftedMean:
-      Math.round(
-        (Math.abs(stats.meanVolume) - Math.abs(newStats.meanVolume)) * 10
-      ) / 10,
-    originalMean: Math.round(stats.meanVolume * 10) / 10,
-    newMean: Math.round(newStats.meanVolume * 10) / 10,
-    originalPeak: Math.round(stats.maxVolume * 10) / 10,
-    newPeak: Math.round(newStats.maxVolume * 10) / 10,
-  });
-  finishedPaths.push(args.id);
-  finishedInfos[args.id] = {
+  const info = {
     liftedMean:
       Math.round(
         (Math.abs(stats.meanVolume) - Math.abs(newStats.meanVolume)) * 10
@@ -195,6 +185,10 @@ ipcMain.on('handle-new-file', async (event: any, args: any) => {
     originalPeak: Math.round(stats.maxVolume * 10) / 10,
     newPeak: Math.round(newStats.maxVolume * 10) / 10,
   };
+  finishedPaths.push(args.id);
+  finishedInfos[args.id] = info;
+  console.log(info);
+
   event.reply('finished-handle-file', {
     liftedMean:
       Math.round(
