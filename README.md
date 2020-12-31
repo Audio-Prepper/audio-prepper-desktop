@@ -1,5 +1,5 @@
 # Audio Prepper
-Still under active development and far from finished.
+Still just a prototype and in active development. So do not wonder why the downloads are not signed yet for windows and mac os
 
 ## The Why?
 There are just too many videos out there that have bad audio due to that the audio levels are not balanced enough. And it's definitely not that easy as someone that doesn't understand audio that well, how to level and master your audio for platforms like YouTube. Probably most of YouTubers do not know how to use the LUFS value (or even what it is) or how to properly read the audio meters inside their editing software.
